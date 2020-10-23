@@ -8,7 +8,8 @@ var ObjectId = require('mongodb').ObjectId;
 //登录
 router.post('/login', function(req, res, next) {
 	var md5 = crypto.createHash('md5');
-  var password = md5.update(req.body.password).digest('base64');
+//   var password = md5.update(req.body.password).digest('base64');
+  var password = req.body.password;
 
 	handler(req, res, "user", {name: req.body.username},function(data){
 		if(data.length===0){
@@ -19,7 +20,7 @@ router.post('/login', function(req, res, next) {
 			
 			req.session.username = req.body.username; //存session
 			req.session.password = password;
-			
+			res.end(req.session.username)
 			res.end('{"success":"true"}');
 		}
 		
@@ -38,7 +39,6 @@ router.post('/logout', function(req, res, next) {
 
 //管理员列表
 router.post('/AdminList', function(req, res, next) {
-	//console.log(req.body);
 	req.route.path = "/page"; //修改path来设定 对 数据库的操作
 	var page = req.body.page || 1;
 	var rows = req.body.rows || 5;
@@ -48,7 +48,7 @@ router.post('/AdminList', function(req, res, next) {
           total:count,
           success:"成功"
         };
-        var str = JSON.stringify(obj);
+		var str = JSON.stringify(obj);
         res.end(str);
 	});
 });
@@ -73,9 +73,7 @@ router.post('/add', function(req, res, next) {
 
 //删除用户
 router.post('/delete', function(req, res, next) {
-	
 	handler(req, res, "user", {"_id" : ObjectId(req.body._id)},function(data){
-		
 		console.log(data);
 		if(data.length==0){
 			res.end('{"err":"抱歉，删除失败"}');
@@ -91,10 +89,10 @@ router.post('/delete', function(req, res, next) {
 });
 
 
+
 //编辑更新用户
 router.post('/update', function(req, res, next) {
 	//console.log(req.body);
-	
 	var selectors = [
     	{"_id":ObjectId(req.body._id)},
     	{"$set":{
@@ -104,16 +102,12 @@ router.post('/update', function(req, res, next) {
     	}
     ];
 	handler(req, res, "user", selectors,function(data){
-		
-		//console.log(data);
 		if(data.length==0){
-			res.end('{"err":"抱歉，修改失败"}');
+			res.end('{"err":"抱歉, 修改失败"}');
 		}else{
 			res.end('{"success":"修改成功"}');
 		}
-		
 	});
-	
 });
 
 

@@ -56,11 +56,12 @@
 				var _this = this;
 			
 				this.$reqs.post('/users/AdminList',{
-					page:page
+					// page:page
 				}).then(function(result){ 
 					//成功
 					_this.listData = result.data.data;
-					_this.pageInfo.allpage = Math.ceil( result.data.total/5 );
+					console.log(result.data);
+					// _this.pageInfo.allpage = Math.ceil( result.data.total/5 );
 				}).catch(function (error) {
 					//失败
 			    	console.log(error)
@@ -116,6 +117,7 @@
 				this.Admin.password = "";
 			},
 			deleteAdmin(item){
+				console.log(item);
 				this.$reqs.post('/users/delete',item)
 				.then((result)=>{
 					//成功

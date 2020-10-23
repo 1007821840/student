@@ -9,12 +9,14 @@
 				<div class="more" @click="toggleSlide">
 					<i class="fa fa-bars" aria-hidden="true"></i>
 					<ul :class="{showul:showExit}">
-						<li><a href="javascript:;" @click="logout"><i class="fa fa-sign-out" aria-hidden="true"></i>退出</a></li>
+						<li><a href="javascript:;" @click="logout"><i class="fa fa-sign-out" aria-hidden="true">
+							<span>{{this.$store.state.namee}}</span>
+						</i>退出</a></li>
 						<li><a href="javascript:;" @click="">修改密码</a></li>
 						<li><a href="javascript:;">意见反馈</a></li>
 					</ul>
 				</div>
-				<img src="../assets/images/teacherimg01.png" alt="" />
+				<!-- <img src="../assets/images/teacherimg01.png" alt="" /> -->
 			</div>
 		</div>
 		
@@ -77,6 +79,7 @@
 	    return {
 					search_box_fouce:false,
 					showExit:false,
+					nam:'',
 					pageTitle: pageTitleObj[ this.$route.path.substr( this.$route.path.lastIndexOf("/")+1 ) ] || "网站首页"
 	    }
 	  },
@@ -96,7 +99,7 @@
 					
 				}).then(function(result){
 					//成功
-					_this.$router.push({path:'/'});
+					// _this.$router.push({path:'/'});
 				}).catch(function (error) {
 					//失败
 			    console.log(error)

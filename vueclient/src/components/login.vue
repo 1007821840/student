@@ -6,7 +6,7 @@
 				<input class="myinput" type="text" placeholder="手机号/用户名" v-model="username" />
 			</div>
 			<div>
-				<input @keyup.13="login" class="myinput" type="password" placeholder="口令" v-model="password" />
+				<input @keyup.13="login" class="myinput" type="password" placeholder="密码" v-model="password" />
 			</div>
 			<div class="login_other">
 				<a href="javascript:;">找回密码</a>
@@ -24,13 +24,22 @@
 	  name: 'backlogin',
 	  data () {
 	    return {
-				username:"admin",/*TODO:先预存测试值，以免手动输入*/
-				password:"123456",
+			i:'',
+			    nam:"",
+				username:"",/*TODO:先预存测试值，以免手动输入*/
+				password:"",
 				disablebtn:false,
 				loginText:"登录"
 	    }
 	  },
 	  methods:{
+		  bus(){
+			  this.i=1;
+			  this.$store.commit('it',this.i);
+
+
+
+		  },
 			login(){
 				var _this = this;
 				this.disablebtn = true;
@@ -44,6 +53,8 @@
 					if(result.data.err){
 						alert(result.data.err);
 					}else{
+						_this.nam=result.data;
+						_this.$store.commit('nameee',_this.nam);
 						_this.$router.push({path:'/backIndex/indexContent'});
 					}
 					_this.disablebtn = false;
